@@ -7,7 +7,12 @@ import { provideNgVibeToastify } from '@ng-vibe/toastify';
 import { authInterceptor } from '../shared/interceptors/auth.interceptor';
 import { errorInterceptor } from '../shared/interceptors/error.interceptor';
 import { provideNgVibeDialog } from '@ng-vibe/dialog';
+import { loadingInterceptor } from '../shared/interceptors/loading.interceptor';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideHttpClient(withInterceptors([authInterceptor, errorInterceptor])), provideNgVibeToastify(), provideNgVibeDialog()]
+  providers: [
+    provideRouter(routes), 
+    provideHttpClient(withInterceptors([authInterceptor, errorInterceptor, loadingInterceptor])), 
+    provideNgVibeToastify(), 
+    provideNgVibeDialog()]
 };

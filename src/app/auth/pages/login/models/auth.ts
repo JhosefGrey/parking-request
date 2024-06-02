@@ -15,6 +15,7 @@ export interface User {
     _id:       string;
     nombre:    string;
     apellido:  string;
+    idCasa:    string;
     idUsuario: string;
     createdAt: Date;
     updatedAt: Date;

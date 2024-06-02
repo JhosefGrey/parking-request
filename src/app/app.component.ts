@@ -1,45 +1,35 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Solicitud } from './models/solicitud';
-import { AppService } from './app.service';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { BrowserModule } from '@angular/platform-browser';
+import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
+import { SharedService } from '../shared/services/shared.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, FormsModule, CommonModule],
+  imports: [RouterOutlet, NgxLoadingModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
   title = 'parking-request';
+  show: boolean = false;
 
-  solicitudes: Solicitud[] = [];
+  public config = {
+    animationType: ngxLoadingAnimationTypes.circleSwish,
+    primaryColour: "#10312a",
+    secondaryColour: "#dcc17d",
+    tertiaryColour: "$c9b095",
+    backdropBorderRadius: '3px',
+    fullScreenBackdrop: true
+  };
 
-  solicitud: Solicitud = new Solicitud();
+  constructor(private _loading: SharedService, private cdr: ChangeDetectorRef){}
 
-  constructor(private _service: AppService) { }
-
-  getMaxId() {
-
-    let maxId = 0;
-
-    this.solicitudes.forEach(soli => {
-      maxId ++
-    });
-
-    maxId = maxId + 1;
-
-    return maxId;
-
+  ngOnInit(): void {
+    this._loading.setLoading.asObservable().subscribe((res) => {
+      this.show = res;
+      this.cdr.detectChanges();
+    })
   }
-
-  // crearSolicitud() {
-  //   console.log('creando solicitud', this.solicitud)
-  //   this.solicitud.idSolicitud = this.getMaxId();
-  //   this._service.sendMessage(this.solicitud);
-  // }
 
 }

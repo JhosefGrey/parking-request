@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AppearanceAnimation, DisappearanceAnimation, ProgressBar, TextAlignEnum, ToastPosition, ToastTypeEnum, ToastifyRemoteControl } from '@ng-vibe/toastify';
+import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class SharedService {
   private toast: ToastifyRemoteControl = new ToastifyRemoteControl();
+  public setLoading = new BehaviorSubject<boolean>(false);
   constructor() { }
 
   mensaje(content: string, tipo: ToastTypeEnum) {

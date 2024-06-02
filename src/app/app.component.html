@@ -1,25 +1,4 @@
-<!-- <nav class="navbar bg-primary" data-bs-theme="dark">
-  <div class="container-fluid">
-    <span class="navbar-brand mb-0 h1">Artemis</span>
-  </div>
-</nav>
 
-
-
-<div class="container mt-2">
-  <form #f="ngForm" class="row g-3" (ngSubmit)="crearSolicitud()">
-    <div class="col-md-6">
-      <label for="txtUsuario" class="form-label">Usuario</label>
-      <input type="text" class="form-control" required [(ngModel)]="solicitud.usuarioSolicitud" name="usuarioSolicitud"  id="txtUsuario">
-    </div>
-    <div class="col-md-6">
-      <label for="txtParqueo" class="form-label">Solicitar Parqueo</label>
-      <input type="text" class="form-control"  required [(ngModel)]="solicitud.parqueo" name="parqueo" id="txtParqueo">
-    </div>
-    <div class="col-12">
-      <button type="submit" class="btn btn-primary" [disabled]="f.invalid">Soliciar</button>
-    </div>
-  </form>
-</div> -->
+<ngx-loading [show]="show" [config]="config"></ngx-loading>
 
 <router-outlet></router-outlet>

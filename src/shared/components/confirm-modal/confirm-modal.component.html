@@ -1,0 +1,23 @@
+<div class="container p-3">
+    <div class="row">
+        <div class="col-12">
+            <h4>{{ title | titlecase }}</h4>
+            <hr>
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col-12">
+            {{ content }}
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col-12 d-flex justify-content-end ">
+            <div class="btn-group">
+                <button class="btn btn-sm btn-primary" (click)="confirm()">{{ textConfirm | titlecase }}</button>
+                <button class="btn btn-sm btn-secondary" (click)="close()">{{ 'Cancelar' | titlecase }}</button>
+            </div>
+        </div>
+    </div>
+</div>

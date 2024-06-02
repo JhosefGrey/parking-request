@@ -9,7 +9,7 @@
 </nav>
 
 
-<!-- 
+
 <div class="container mt-2">
 
     <div class="row">
@@ -19,23 +19,26 @@
     </div>
 
     <div class="row g-3">
-        @for (solicitud of solicitudes; track $index) {
-        <div class="col-12-col-md-6 col-lg-4 animate" *ngIf="solicitud.entregado === false" (click)="cerrar(solicitud)">
-            <div class="card ">
-                <div class="card-body">
-                    <h3>
-                       Solicitud: {{ solicitud.usuarioSolicitud }}
-                    </h3>
-                    <h5>
-                       Parqueo: {{ solicitud.parqueo }}
-                    </h5>
-                    <span class="text-muted"> Fecha Solicitud{{ solicitud.fechaSolicitud | date: 'dd/MMM/yyyy HH:mm' }}</span>
-                </div>
+ 
+        @for (parqueo of parqueos; track $index) {
+            <div class="col-12 col-md-6 col-lg-3"  >
+                <div class="card" (click)="solicitar(parqueo)"  >
+                    <div class="card-header d-flex justify-content-between ">
+                      <span>
+                        {{ parqueo.codigo }}  
+                      </span>
+
+                      <i class="bi bi-car-front-fill"></i>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item d-flex justify-content-between" >
+                        <span [ngClass]="parqueo.ocupado === true ? 'ocupado' : 'disponible'"> {{ parqueo.ocupado === true ? 'Ocupado' : 'Disponible' }} </span> 
+                        <span *ngIf="parqueo.ocupado">{{ parqueo.updatedAt | date: 'HH:mm' }}</span>
+                    </li>
+                    </ul>
+                  </div>
             </div>
-        </div>
         }
-        @if(getPendientes() === 0) {
-        <h4>Sin solicitudes aún</h4>
-        }
+
     </div>
-</div> -->
+</div>

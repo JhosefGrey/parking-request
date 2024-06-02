@@ -21,6 +21,8 @@
     "@ng-vibe/dialog": "^0.1.1",
     "@ng-vibe/toastify": "^0.1.2",
     "bootstrap": "^5.3.3",
+    "bootstrap-icons": "^1.11.3",
+    "ngx-loading": "^17.0.0",
     "rxjs": "~7.8.0",
     "socket.io-client": "^4.7.5",
     "tslib": "^2.3.0",

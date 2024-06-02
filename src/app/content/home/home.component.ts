@@ -5,6 +5,9 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../auth/pages/login/services/auth.service';
 import { User } from '../../auth/pages/login/models/auth';
+import { HomeService } from './home.service';
+import { CasaVista } from './models/casa';
+import { ParqueoVista } from './models/parque';
 
 @Component({
   selector: 'app-home',
@@ -18,32 +21,37 @@ export class HomeComponent implements OnInit {
 
   solicitudes: Solicitud[] = [];
   user: User | null = null;
-
-  constructor( private _auth: AuthService) { }
+  casa!: CasaVista;
+  parqueos: ParqueoVista[] = [];
+  constructor(private _auth: AuthService, private _service: HomeService) { }
 
   ngOnInit(): void {
-    // this._service.getMessages().subscribe((res) => this.solicitudes.push(res));
     this.user = this._auth.user;
-    console.log(this._auth.user)
+    this.getCasa();
   }
 
-  getPendientes() {
-    let total = 0;
-    this.solicitudes.forEach((x) => {
-      if (x.entregado === false) {
-        total++
-      }
+
+  getCasa(){
+    this._service.getCasaById(this.user?.idCasa!).subscribe((res) => {
+      this.casa = res;
+      this.getParqueos();
     })
-
-    return total;
   }
 
-  cerrar(solicitud: Solicitud) {
-    solicitud.entregado = true;
+  getParqueos(){
+    this._service.getParqueosByBloque(this.casa.bloqueId).subscribe((res) => {
+      this.parqueos = res;
+    })
   }
 
 
-  logout(){
+  solicitar(parqueo: ParqueoVista){
+    if(parqueo.ocupado) return;
+    console.log(parqueo);
+  }
+
+
+  logout() {
     this._auth.logOut();
   }
 
