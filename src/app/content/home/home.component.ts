@@ -45,7 +45,7 @@ export class HomeComponent implements OnInit {
           this.parqueoAsignado = true;
         }
   
-        // this.getParqueos();
+        this.getParqueos();
   
       });
     })
@@ -83,6 +83,7 @@ export class HomeComponent implements OnInit {
         this._service.dejarParqueo(this.idParqueo).subscribe(() => {
           this.parqueoAsignado = false;
           this.getParqueos();
+          this._service.sendMessageParqueo({ parqueoSolicitado: '', usuarioSolicitud: '' })
         })
       }
     });

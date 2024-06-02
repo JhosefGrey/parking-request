@@ -18,6 +18,10 @@ export class HomeService {
     this.socket.emit('message', message);
   }
 
+  sendMessageParqueo(message: Solicitud) {
+    this.socket.emit('solicitud', message);
+  }
+
   getMessages() {
     let observable = new Observable<Solicitud>(observer => {
       this.socket.on('solicitud', (data: Solicitud) => {
