@@ -18,7 +18,11 @@
     "@angular/platform-browser": "^17.2.0",
     "@angular/platform-browser-dynamic": "^17.2.0",
     "@angular/router": "^17.2.0",
+    "@ng-vibe/dialog": "^0.1.1",
+    "@ng-vibe/toastify": "^0.1.2",
+    "bootstrap": "^5.3.3",
     "rxjs": "~7.8.0",
+    "socket.io-client": "^4.7.5",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
   },
