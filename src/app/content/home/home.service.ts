@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environment';
 import { ParqueoVista } from './models/parque';
 import { io } from 'socket.io-client';
 import { Solicitud } from './models/solicitud';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -15,6 +16,17 @@ export class HomeService {
 
   sendMessage(message: Solicitud) {
     this.socket.emit('message', message);
+  }
+
+  getMessages() {
+    let observable = new Observable<Solicitud>(observer => {
+      this.socket.on('solicitud', (data: Solicitud) => {
+        console.log(data, 'holaa')
+        observer.next(data);
+      });
+      return () => { this.socket.disconnect(); };
+    });
+    return observable;
   }
 
   crearSolicitud(solicitud: Solicitud){

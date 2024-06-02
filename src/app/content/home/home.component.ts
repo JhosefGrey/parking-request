@@ -8,6 +8,9 @@ import { User } from '../../auth/pages/login/models/auth';
 import { HomeService } from './home.service';
 import { CasaVista } from './models/casa';
 import { ParqueoVista } from './models/parque';
+import { DialogRemoteControl } from '@ng-vibe/dialog';
+import { AppearanceAnimation, DisappearanceAnimation } from '@ng-vibe/toastify';
+import { ConfirmModalComponent } from '../../../shared/components/confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-home',
@@ -36,13 +39,22 @@ export class HomeComponent implements OnInit {
     this._service.getCasaById(this.user?.idCasa!).subscribe((res) => {
       this.casa = res;
       this.getParqueos();
+      this._service.getMessages().subscribe((res) => {
+
+        if(res.parqueoSolicitado === this.idParqueo && res.usuarioSolicitud === this._auth.user?._id){
+          this.parqueoAsignado = true;
+        }
+  
+        // this.getParqueos();
+  
+      });
     })
   }
 
   getParqueos() {
     this._service.getParqueosByBloque(this.casa.bloqueId).subscribe((res) => {
       this.parqueos = res;
-    })
+    });
   }
 
 
@@ -52,17 +64,30 @@ export class HomeComponent implements OnInit {
 
     const objSoli: Solicitud = { parqueoSolicitado: parqueo._id, usuarioSolicitud: this._auth.user?._id! }
 
-    this._service.sendMessage(objSoli);
-
-    // this._service.crearSolicitud(objSoli).subscribe(() => {
-    // });
+    this._service.crearSolicitud(objSoli).subscribe(() => {
+      this._service.sendMessage(objSoli);
+    });
   }
 
   dejarParqueo() {
-    this._service.dejarParqueo(this.idParqueo).subscribe(() => {
-      this.parqueoAsignado = false;
-      this.getParqueos();
-    })
+    const dialog = new DialogRemoteControl(ConfirmModalComponent);
+    dialog.options = {
+      showOverlay: true,
+      animationIn: AppearanceAnimation.BOUNCE_IN,
+      animationOut: DisappearanceAnimation.BOUNCE_OUT,
+    };
+
+    dialog.openDialog({ title: null, content: '¿Está seguro(a) de querer dejar el parqueo?', textConfirm: null }).subscribe((res) => {
+      if (res.result) {
+
+        this._service.dejarParqueo(this.idParqueo).subscribe(() => {
+          this.parqueoAsignado = false;
+          this.getParqueos();
+        })
+      }
+    });
+
+ 
   }
 
   logout() {
