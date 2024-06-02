@@ -18,11 +18,12 @@ import { ParqueoVista } from './models/parque';
   providers: [DatePipe]
 })
 export class HomeComponent implements OnInit {
-
+  parqueoAsignado: boolean = false;
   solicitudes: Solicitud[] = [];
   user: User | null = null;
   casa!: CasaVista;
   parqueos: ParqueoVista[] = [];
+  idParqueo: string = '';
   constructor(private _auth: AuthService, private _service: HomeService) { }
 
   ngOnInit(): void {
@@ -31,25 +32,38 @@ export class HomeComponent implements OnInit {
   }
 
 
-  getCasa(){
+  getCasa() {
     this._service.getCasaById(this.user?.idCasa!).subscribe((res) => {
       this.casa = res;
       this.getParqueos();
     })
   }
 
-  getParqueos(){
+  getParqueos() {
     this._service.getParqueosByBloque(this.casa.bloqueId).subscribe((res) => {
       this.parqueos = res;
     })
   }
 
 
-  solicitar(parqueo: ParqueoVista){
-    if(parqueo.ocupado) return;
-    console.log(parqueo);
+  solicitar(parqueo: ParqueoVista) {
+    if (parqueo.ocupado) return;
+    this.idParqueo = parqueo._id;
+
+    const objSoli: Solicitud = { parqueoSolicitado: parqueo._id, usuarioSolicitud: this._auth.user?._id! }
+
+    this._service.sendMessage(objSoli);
+
+    // this._service.crearSolicitud(objSoli).subscribe(() => {
+    // });
   }
 
+  dejarParqueo() {
+    this._service.dejarParqueo(this.idParqueo).subscribe(() => {
+      this.parqueoAsignado = false;
+      this.getParqueos();
+    })
+  }
 
   logout() {
     this._auth.logOut();
